@@ -93,62 +93,63 @@ const editUserController = async (req, res) => {
   }
 };
 
-// ================= BULK EMAIL
-const sendMailToAllUsersController = async (req, res) => {
-  try {
-    const { subject, msg } = req.body;
-    const users = await subcribeModel.find({ allowed: true });
 
-    if (users.length === 0) {
-      return res.status(200).send({ success: false, message: "No user found" });
-    }
+// // ================= BULK EMAIL
+// const sendMailToAllUsersController = async (req, res) => {
+//   try {
+//     const { subject, msg } = req.body;
+//     const users = await subcribeModel.find({ allowed: true });
 
-    // Loop through users and send email to each user
-    for (const user of users) {
-      const { email } = user;
-      try {
-        const dynamicData = {
-          subject: `${subject}`,
-          msg: `${msg}`,
-          user_email: email,
-        };
+//     if (users.length === 0) {
+//       return res.status(200).send({ success: false, message: "No user found" });
+//     }
 
-        let htmlContent = fs.readFileSync("bulkMail.html", "utf8");
-        Object.keys(dynamicData).forEach((key) => {
-          const placeholder = new RegExp(`{${key}}`, "g");
-          htmlContent = htmlContent.replace(placeholder, dynamicData[key]);
-        });
+//     // Loop through users and send email to each user
+//     for (const user of users) {
+//       const { email } = user;
+//       try {
+//         const dynamicData = {
+//           subject: `${subject}`,
+//           msg: `${msg}`,
+//           user_email: email,
+//         };
 
-        // Send mail
-        let mailTransporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "mobihaven.skinz@gmail.com",
-            pass: "ezkhbefirpnajwqd",
-          },
-        });
+//         let htmlContent = fs.readFileSync("bulkMail.html", "utf8");
+//         Object.keys(dynamicData).forEach((key) => {
+//           const placeholder = new RegExp(`{${key}}`, "g");
+//           htmlContent = htmlContent.replace(placeholder, dynamicData[key]);
+//         });
 
-        let mailDetails = {
-          from: process.env.EMAIL_USER,
-          to: email,
-          subject: subject,
-          html: htmlContent,
-        };
+//         // Send mail
+//         let mailTransporter = nodemailer.createTransport({
+//           service: "gmail",
+//           auth: {
+//             user: "mobihaven.skinz@gmail.com",
+//             pass: "ezkhbefirpnajwqd",
+//           },
+//         });
 
-        await mailTransporter.sendMail(mailDetails);
-      } catch (error) {
-        console.error(`Error sending email to ${user.email}:`, error);
-      }
-    }
+//         let mailDetails = {
+//           from: process.env.EMAIL_USER,
+//           to: email,
+//           subject: subject,
+//           html: htmlContent,
+//         };
 
-    res
-      .status(200)
-      .send({ success: true, message: "Emails sent to all users" });
-  } catch (error) {
-    console.error(`Send Mail to Users Ctrl: ${error.message}`);
-    res.status(500).send({ success: false, message: "Internal Server Error" });
-  }
-};
+//         await mailTransporter.sendMail(mailDetails);
+//       } catch (error) {
+//         console.error(`Error sending email to ${user.email}:`, error);
+//       }
+//     }
+
+//     res
+//       .status(200)
+//       .send({ success: true, message: "Emails sent to all users" });
+//   } catch (error) {
+//     console.error(`Send Mail to Users Ctrl: ${error.message}`);
+//     res.status(500).send({ success: false, message: "Internal Server Error" });
+//   }
+// };
 
 const addBrandController = async (req, res) => {
   try {
@@ -667,7 +668,7 @@ module.exports = {
   getUserController,
   deleteUserController,
   editUserController,
-  sendMailToAllUsersController,
+  // sendMailToAllUsersController,
   addBrandController,
   getAllBrandContoller,
   addModelController,

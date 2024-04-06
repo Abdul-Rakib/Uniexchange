@@ -20,7 +20,7 @@ const addPropertyController = async (req, res) => {
     await newProperty.save();
 
     await sendMail(
-      "uniexchange.in@gmail.com",
+      "uniexchangeofficial@gmail.com",
       "New Product Added",
       "",
       "Please Login and check the new Product"
