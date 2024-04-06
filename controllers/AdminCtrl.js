@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 const getAllUserController = async (req, res) => {
   try {
     const allUser = await userModel.find({
-      email: { $ne: "aashirdigital@gmail.com" },
+      email: { $ne: "firefalls2004@gmail.com" },
     });
     if (!allUser) {
       return res.status(200).send({ success: false, message: "No User Found" });
